@@ -37,14 +37,51 @@ Sistem absensi untuk kelas XI Pemasaran SMK Informatika Bina Generasi 3.
    ```sql
    CREATE DATABASE school_absent;
    ```
-5. Jalankan migrasi database:
+
+## Inisialisasi dan Migrasi Database
+
+5. Inisialisasi database (sinkronisasi model):
    ```bash
-   npm run migrate
+   npm run db:init
    ```
-6. Jalankan aplikasi:
+6. Jalankan migrasi database:
    ```bash
-   npm start
+   npm run db:migrate
    ```
+7. Jalankan seeder untuk mengisi data awal:
+   ```bash
+   npm run db:seed
+   ```
+8. Reset database (undo semua migrasi, migrasi ulang, dan seed ulang):
+   ```bash
+   npm run db:reset
+   ```
+
+## Penggunaan
+
+1. Buka browser dan akses `http://localhost:3000`
+2. Login menggunakan kredensial yang telah disediakan
+3. Mulai mencatat absensi siswa
+
+## Struktur Project
+
+```
+src/
+├── config/         # Konfigurasi database dan aplikasi
+├── controllers/    # Controller untuk menangani logika bisnis
+├── models/         # Model database
+├── routes/         # Definisi route
+├── views/          # Template EJS
+└── public/         # File statis (CSS, JS, gambar)
+```
+
+## Kontribusi
+
+Silakan buat issue atau pull request untuk kontribusi.
+
+## Lisensi
+
+MIT
 
 ## Penggunaan
 
