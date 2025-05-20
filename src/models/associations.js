@@ -1,6 +1,4 @@
-const { Student, Attendance } = require('./index');
-
-function setupAssociations() {
+function setupAssociations({ Student, Attendance }) {
   Attendance.belongsTo(Student, { foreignKey: 'studentId' });
   Student.hasMany(Attendance, { foreignKey: 'studentId' });
 }
