@@ -54,18 +54,32 @@ const students = [
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const studentRecords = students.map(name => ({
-      name,
-      class: 'XI Pemasaran',
-      waliKelas: 'Aghi Sofia Jati, S.I.Kom',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }));
+    try {
+      console.log('Starting to seed students...');
+      const studentRecords = students.map(name => ({
+        name,
+        class: 'XI Pemasaran',
+        waliKelas: 'Aghi Sofia Jati, S.I.Kom',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }));
 
-    await queryInterface.bulkInsert('Students', studentRecords, {});
+      await queryInterface.bulkInsert('Students', studentRecords, {});
+      console.log('Students seeded successfully.');
+    } catch (error) {
+      console.error('Error seeding students:', error);
+      throw error;
+    }
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Students', null, {});
+    try {
+      console.log('Deleting seeded students...');
+      await queryInterface.bulkDelete('Students', null, {});
+      console.log('Seeded students deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting seeded students:', error);
+      throw error;
+    }
   }
-}; 
+};
