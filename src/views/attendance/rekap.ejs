@@ -25,6 +25,7 @@
         Rekap Absensi Bulanan <%= kelas %> - <%= month %>/<%= year %>
       <% } %>
     </h3>
+    <button id="current-month-rekap" class="btn btn-primary mb-3">Rekap Bulan Ini</button>
     <div class="table-responsive mt-4">
         <table class="table table-bordered">
             <thead>
@@ -110,6 +111,17 @@ function printRekap() {
     newWin.print();
 }
 document.getElementById('print-rekap').onclick = printRekap;
+</script>
+<script>
+  document.getElementById('current-month-rekap').addEventListener('click', () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const start = new Date(year, month, 1).toISOString().slice(0, 10);
+    const end = new Date(year, month + 1, 0).toISOString().slice(0, 10);
+    const url = `/attendance/rekap-range?start=${start}&end=${end}`;
+    window.location.href = url;
+  });
 </script>
 </body>
 </html>
