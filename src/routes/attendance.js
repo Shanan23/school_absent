@@ -143,4 +143,48 @@ router.get('/rekap/:year/:month', async (req, res) => {
   }
 });
 
-module.exports = router; 
+// New route for attendance recap with date range
+router.get('/rekap-range', async (req, res) => {
+  try {
+    const { start, end } = req.query;
+    if (!start || !end) {
+      return res.status(400).send('Start and end date are required');
+    }
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    const students = await Student.findAll();
+    const attendance = await Attendance.findAll({
+      where: {
+        date: {
+          [Op.between]: [startDate, endDate]
+        }
+      },
+      include: [Student]
+    });
+
+    // Rekap per siswa
+    const rekap = students.map(student => {
+      const records = attendance.filter(a => a.studentId === student.id);
+      const count = { hadir: 0, terlambat: 0, sakit: 0, izin: 0, alfa: 0 };
+      records.forEach(r => count[r.status]++);
+      return {
+        student,
+        ...count
+      };
+    });
+
+    res.render('attendance/rekap', {
+      rekap,
+      startDate: start,
+      endDate: end,
+      waliKelas: students[0]?.waliKelas || 'Aghi Sofia Jati, S.I.Kom',
+      kelas: students[0]?.class || 'XI Pemasaran'
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+module.exports = router;
