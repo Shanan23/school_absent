@@ -5,81 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sistem Absensi XI Pemasaran</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-50 text-gray-800">
-    <nav class="bg-blue-600 text-white shadow-md">
-        <div class="container mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
-            <a href="/" class="text-xl font-semibold hover:text-blue-300">Sistem Absensi XI Pemasaran</a>
-            <button id="nav-toggle" class="block lg:hidden focus:outline-none">
-                <i class="fas fa-bars text-2xl"></i>
+<body class="bg-light text-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+            <a href="/" class="navbar-brand fw-semibold">Sistem Absensi XI Pemasaran</a>
+            <button id="nav-toggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div id="nav-content" class="hidden w-full lg:flex lg:items-center lg:w-auto">
-                <ul class="lg:flex lg:space-x-6">
-                    <li><a href="/students" class="block px-3 py-2 rounded hover:bg-blue-500">Data Siswa</a></li>
-                    <li><a href="/attendance" class="block px-3 py-2 rounded hover:bg-blue-500">Absensi</a></li>
+            <div id="nav-content" class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a href="/students" class="nav-link">Data Siswa</a></li>
+                    <li class="nav-item"><a href="/attendance" class="nav-link">Absensi</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 mt-6">
-        <section class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h4 class="text-xl font-semibold mb-4">Dashboard Absensi - <%= currentMonth %></h4>
-            <div class="flex flex-col lg:flex-row gap-6">
-                <div class="flex-1">
+    <main class="container mt-4">
+        <section class="bg-white rounded shadow p-4 mb-4">
+            <h4 class="h4 fw-semibold mb-4">Dashboard Absensi - <%= currentMonth %></h4>
+            <div class="d-flex flex-column flex-lg-row gap-3">
+                <div class="flex-fill">
                     <canvas id="attendanceChart"></canvas>
                 </div>
-                <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-3 p-4 bg-gray-100 rounded shadow">
-                        <i class="fas fa-check-circle text-green-500 text-2xl"></i>
-                        <span class="font-medium text-gray-700">Hadir: <%= stats.hadir %></span>
+                <div class="flex-fill row row-cols-1 row-cols-sm-2 g-3">
+                    <div class="d-flex align-items-center gap-3 p-3 bg-light rounded shadow-sm">
+                        <i class="fas fa-check-circle text-success fs-3"></i>
+                        <span class="fw-medium text-secondary">Hadir: <%= stats.hadir %></span>
                     </div>
-                    <div class="flex items-center gap-3 p-4 bg-yellow-100 rounded shadow">
-                        <i class="fas fa-clock text-yellow-500 text-2xl"></i>
-                        <span class="font-medium text-gray-700">Terlambat: <%= stats.terlambat %></span>
+                    <div class="d-flex align-items-center gap-3 p-3 bg-warning bg-opacity-25 rounded shadow-sm">
+                        <i class="fas fa-clock text-warning fs-3"></i>
+                        <span class="fw-medium text-secondary">Terlambat: <%= stats.terlambat %></span>
                     </div>
-                    <div class="flex items-center gap-3 p-4 bg-blue-100 rounded shadow">
-                        <i class="fas fa-procedures text-blue-500 text-2xl"></i>
-                        <span class="font-medium text-gray-700">Sakit: <%= stats.sakit %></span>
+                    <div class="d-flex align-items-center gap-3 p-3 bg-primary bg-opacity-25 rounded shadow-sm">
+                        <i class="fas fa-procedures text-primary fs-3"></i>
+                        <span class="fw-medium text-secondary">Sakit: <%= stats.sakit %></span>
                     </div>
-                    <div class="flex items-center gap-3 p-4 bg-indigo-100 rounded shadow">
-                        <i class="fas fa-envelope text-indigo-500 text-2xl"></i>
-                        <span class="font-medium text-gray-700">Izin: <%= stats.izin %></span>
+                    <div class="d-flex align-items-center gap-3 p-3" style="background-color: #e0e7ff; border-radius: 0.25rem; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);">
+                        <i class="fas fa-envelope text-indigo fs-3"></i>
+                        <span class="fw-medium text-secondary">Izin: <%= stats.izin %></span>
                     </div>
-                    <div class="flex items-center gap-3 p-4 bg-red-100 rounded shadow">
-                        <i class="fas fa-times-circle text-red-500 text-2xl"></i>
-                        <span class="font-medium text-gray-700">Alfa: <%= stats.alfa %></span>
+                    <div class="d-flex align-items-center gap-3 p-3 bg-danger bg-opacity-25 rounded shadow-sm">
+                        <i class="fas fa-times-circle text-danger fs-3"></i>
+                        <span class="fw-medium text-secondary">Alfa: <%= stats.alfa %></span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="bg-white rounded-lg shadow-md p-6">
-            <h4 class="text-xl font-semibold mb-4">Absensi Hari Ini</h4>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-100 border-b border-gray-300">
+        <section class="bg-white rounded shadow p-4">
+            <h4 class="h4 fw-semibold mb-4">Absensi Hari Ini</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered rounded">
+                    <thead class="table-light">
                         <tr>
-                            <th class="text-left py-2 px-4 border-r border-gray-300">No</th>
-                            <th class="text-left py-2 px-4 border-r border-gray-300">Nama Siswa</th>
-                            <th class="text-left py-2 px-4 border-r border-gray-300">Status</th>
-                            <th class="text-left py-2 px-4 border-r border-gray-300">Keterangan</th>
-                            <th class="text-left py-2 px-4">Aksi</th>
+                            <th class="text-start py-2 px-3 border-end">No</th>
+                            <th class="text-start py-2 px-3 border-end">Nama Siswa</th>
+                            <th class="text-start py-2 px-3 border-end">Status</th>
+                            <th class="text-start py-2 px-3 border-end">Keterangan</th>
+                            <th class="text-start py-2 px-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% students.forEach((student, index) => { %>
-                            <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                <td class="py-2 px-4 border-r border-gray-300"><%= index + 1 %></td>
-                                <td class="py-2 px-4 border-r border-gray-300 flex items-center">
+                            <tr class="align-middle">
+                                <td class="py-2 px-3 border-end"><%= index + 1 %></td>
+                                <td class="py-2 px-3 border-end d-flex align-items-center">
                                     <% if (student.profilePicture) { %>
-                                        <img src="/uploads/<%= student.profilePicture %>" alt="<%= student.name %>" class="w-10 h-10 rounded-full object-cover mr-3" />
+                                        <img src="/uploads/<%= student.profilePicture %>" alt="<%= student.name %>" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;" />
                                     <% } %>
                                     <span><%= student.name %></span>
                                 </td>
-                                <td class="py-2 px-4 border-r border-gray-300">
-                                    <select class="attendance-status border border-gray-300 rounded px-2 py-1 w-full" data-student-id="<%= student.id %>">
+                                <td class="py-2 px-3 border-end">
+                                    <select class="form-select form-select-sm" data-student-id="<%= student.id %>">
                                         <option value="hadir">Hadir</option>
                                         <option value="terlambat">Terlambat</option>
                                         <option value="sakit">Sakit</option>
@@ -87,11 +88,11 @@
                                         <option value="alfa">Alfa</option>
                                     </select>
                                 </td>
-                                <td class="py-2 px-4 border-r border-gray-300">
-                                    <input type="text" class="attendance-notes border border-gray-300 rounded px-2 py-1 w-full" data-student-id="<%= student.id %>" placeholder="Keterangan" />
+                                <td class="py-2 px-3 border-end">
+                                    <input type="text" class="form-control form-control-sm" data-student-id="<%= student.id %>" placeholder="Keterangan" />
                                 </td>
-                                <td class="py-2 px-4">
-                                    <button class="save-attendance bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded px-3 py-1" data-student-id="<%= student.id %>">
+                                <td class="py-2 px-3">
+                                    <button class="btn btn-primary btn-sm" data-student-id="<%= student.id %>">
                                         Simpan
                                     </button>
                                 </td>
@@ -103,6 +104,7 @@
         </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/main.js"></script>
 
@@ -111,7 +113,11 @@
         const navToggle = document.getElementById('nav-toggle');
         const navContent = document.getElementById('nav-content');
         navToggle.addEventListener('click', () => {
-            navContent.classList.toggle('hidden');
+            if (navContent.classList.contains('show')) {
+                navContent.classList.remove('show');
+            } else {
+                navContent.classList.add('show');
+            }
         });
     </script>
 </body>

@@ -4,9 +4,8 @@
   "description": "Sistem Absensi XI Pemasaran SMK Informatika Bina Generasi 3",
   "main": "src/app.js",
   "scripts": {
-    "start": "npm run build:css && node app.js",
-    "dev": "npm run build:css && nodemon app.js",
-    "build:css": "tailwindcss -i ./src/public/css/tailwind.css -o ./src/public/css/style.css --minify",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "db:init": "node src/db/init-db.js",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:seed": "npx sequelize-cli db:seed:all",
@@ -48,8 +47,6 @@
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "nodemon": "^2.0.15",
-    "postcss": "^8.5.3",
-    "sequelize-cli": "^6.4.1",
-    "tailwindcss": "^4.1.7"
+    "sequelize-cli": "^6.4.1"
   }
 }
