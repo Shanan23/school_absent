@@ -4,61 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rekap Absensi Bulanan</title>
-    <style>
-        #signature-pad {
-            @apply border border-gray-300 rounded-lg w-full h-48 bg-white cursor-crosshair;
-        }
-    </style>
-    <link href="/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-50 text-gray-800">
-    <main class="container mx-auto px-4 mt-6">
-        <h3 class="text-xl font-semibold mb-4">
+<body class="bg-light text-dark">
+    <main class="container mt-4">
+        <h3 class="fs-4 fw-semibold mb-4">
             <% if (startDate && endDate) { %>
                 Rekap Absensi dari <%= startDate %> sampai <%= endDate %> - <%= kelas %>
             <% } else { %>
                 Rekap Absensi Bulanan <%= kelas %> - <%= month %>/<%= year %>
             <% } %>
         </h3>
-        <button id="current-month-rekap" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mb-4">
+        <button id="current-month-rekap" class="btn btn-primary mb-4">
             Rekap Bulan Ini
         </button>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                <thead class="bg-gray-100 border-b border-gray-300">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover rounded">
+                <thead class="table-light">
                     <tr>
-                        <th class="text-left py-2 px-4 border-r border-gray-300">No</th>
-                        <th class="text-left py-2 px-4 border-r border-gray-300">Nama Siswa</th>
-                        <th class="text-left py-2 px-4 border-r border-gray-300">Hadir</th>
-                        <th class="text-left py-2 px-4 border-r border-gray-300">Terlambat</th>
-                        <th class="text-left py-2 px-4 border-r border-gray-300">Sakit</th>
-                        <th class="text-left py-2 px-4 border-r border-gray-300">Izin</th>
-                        <th class="text-left py-2 px-4 border-gray-300">Alfa</th>
+                        <th class="text-start py-2 px-3 border-end">No</th>
+                        <th class="text-start py-2 px-3 border-end">Nama Siswa</th>
+                        <th class="text-start py-2 px-3 border-end">Hadir</th>
+                        <th class="text-start py-2 px-3 border-end">Terlambat</th>
+                        <th class="text-start py-2 px-3 border-end">Sakit</th>
+                        <th class="text-start py-2 px-3 border-end">Izin</th>
+                        <th class="text-start py-2 px-3">Alfa</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% rekap.forEach((r, i) => { %>
-                        <tr class="border-b border-gray-200 hover:bg-gray-50">
-                            <td class="py-2 px-4 border-r border-gray-300"><%= i+1 %></td>
-                            <td class="py-2 px-4 border-r border-gray-300"><%= r.student.name %></td>
-                            <td class="py-2 px-4 border-r border-gray-300"><%= r.hadir %></td>
-                            <td class="py-2 px-4 border-r border-gray-300"><%= r.terlambat %></td>
-                            <td class="py-2 px-4 border-r border-gray-300"><%= r.sakit %></td>
-                            <td class="py-2 px-4 border-r border-gray-300"><%= r.izin %></td>
-                            <td class="py-2 px-4 border-gray-300"><%= r.alfa %></td>
+                        <tr class="border-bottom hover-bg-light">
+                            <td class="py-2 px-3 border-end"><%= i+1 %></td>
+                            <td class="py-2 px-3 border-end"><%= r.student.name %></td>
+                            <td class="py-2 px-3 border-end"><%= r.hadir %></td>
+                            <td class="py-2 px-3 border-end"><%= r.terlambat %></td>
+                            <td class="py-2 px-3 border-end"><%= r.sakit %></td>
+                            <td class="py-2 px-3 border-end"><%= r.izin %></td>
+                            <td class="py-2 px-3"><%= r.alfa %></td>
                         </tr>
                     <% }) %>
                 </tbody>
             </table>
         </div>
-        <div class="flex flex-col md:flex-row mt-8 gap-6">
-            <div class="flex-1">
+        <div class="d-flex flex-column flex-md-row mt-4 gap-3">
+            <div class="flex-grow-1">
                 <p>Wali Kelas: <b><%= waliKelas %></b></p>
-                <canvas id="signature-pad" class="border border-gray-300 rounded-lg w-full h-48 bg-white cursor-crosshair"></canvas>
-                <button class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-2" id="clear-signature">Bersihkan Tanda Tangan</button>
+                <canvas id="signature-pad" class="border rounded w-100" style="height: 12rem; background-color: white; cursor: crosshair;"></canvas>
+                <button class="btn btn-secondary mt-2" id="clear-signature">Bersihkan Tanda Tangan</button>
             </div>
-            <div class="flex-1 flex items-end justify-end">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded" id="print-rekap">Cetak Rekap</button>
+            <div class="flex-grow-1 d-flex align-items-end justify-content-end">
+                <button class="btn btn-primary" id="print-rekap">Cetak Rekap</button>
             </div>
         </div>
     </main>
@@ -95,7 +90,7 @@ function printRekap() {
     const waliKelas = document.querySelector('p').outerHTML;
     const newWin = window.open('', '', 'width=900,height=700');
     newWin.document.write('<html><head><title>Rekap Absensi</title>');
-    newWin.document.write('<link href="/css/style.css" rel="stylesheet">');
+    newWin.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">');
     newWin.document.write('</head><body>');
     newWin.document.write(`<h3>
       ${startDate && endDate ? `Rekap Absensi dari ${startDate} sampai ${endDate} - ${kelas}` : `Rekap Absensi Bulanan ${kelas} - ${month}/${year}`}
